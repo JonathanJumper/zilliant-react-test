@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import { CircularProgress } from 'react-md'
+import { connect } from 'react-redux'
 
-import { connect } from '../store'
-import RepoList from './RepoList'
-import RepoDetail from './RepoDetail'
+import { updateRepos, selectRepo, unselectRepo } from '../actions/repoActions'
+
+import RepoList from '../components/RepoList'
+import RepoDetail from '../components/RepoDetail'
 
 class Repos extends Component {
   componentDidMount() {
-    const { updateRepos, lastSuccessfulReposFetch } = this.props
+    const { updateRepos, lastSuccessfulReposFetch } = this.props;
 
-    const now = new Date()
+    const now = new Date();
     if (!lastSuccessfulReposFetch) {
       updateRepos()
     } else if ((now - lastSuccessfulReposFetch) / 1000 > 300) {
@@ -24,8 +26,8 @@ class Repos extends Component {
       selectedRepo,
       selectRepo,
       unselectRepo
-    } = this.props
-    console.log(repos)
+    } = this.props;
+    console.log(repos);
     return (
       isFetchingRepos
         ? <CircularProgress id='repos-progress' />
@@ -36,4 +38,4 @@ class Repos extends Component {
   }
 }
 
-export default connect(Repos)
+export default connect( state => state, {updateRepos, selectRepo, unselectRepo})(Repos)

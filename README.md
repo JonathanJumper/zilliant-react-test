@@ -1,17 +1,18 @@
 # React/Redux Test
 
-This repo serves as a basis for a small test to show off React/Redux skills.
+This repo served as a basis for a small test to show off React/Redux skills.
 
 # What you should do
 
-1. Fork this repo to your own GitHub account, clone it locally to your machine.
-1. Install dependencies with `npm i` and start the development server with `npm start`
-1. The basic task that you should accomplish is to replace the current store (Created with the Context API) with a redux store, without breaking the current functionality.
-1. This is a guided test, so please feel free to ask any questions you want, we will ask our own questions along the way :).
+1. Fork this repo to your own GitHub account, clone it locally to your machine. **done**
+1. Install dependencies with `npm i` and start the development server with `npm start` **done**
+1. The basic task that you should accomplish is to replace the current store (Created with the Context API) with a redux store, without breaking the current functionality. **done**
+1. This is a guided test, so please feel free to ask any questions you want, we will ask our own questions along the way :). **none**
 
-__Bonus:__ Test stuff!
+__Bonus:__ Test stuff! => not done :(
 
-__NOTE:__ It is important that you try and use best practices and cool React/Redux concepts along the way.
+__NOTE:__ It is important that you try and use best practices and cool React/Redux concepts along the way. **done**
+I do not really like container - component pattern but still..
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

@@ -1,102 +1,15 @@
-import React, { Component, createContext } from 'react'
+import { createStore, applyMiddleware, compose } from 'redux'; // state management
+import thunk from 'redux-thunk'; // extended actions
 
-import { getUser, getRepos } from './requests'
+import rootReducer from './reducers/rootReducer'
 
-const GitHubContext = createContext()
+import api from './requests';
 
-export const connect = ChildComponent => {
-  return props => {
-    return (
-      <GitHubContext.Consumer>
-        {store => (<ChildComponent {...props} {...store} />)}
-      </GitHubContext.Consumer>
-    )
-  }
-}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // chrome ext
 
-export class GitHubStore extends Component {
-  state = {
-    user: null,
-    repos: [],
-    selectedRepo: null,
-    isFetchingUser: false,
-    isFetchingRepos: false,
-    errorMsg: null,
-    lastSuccessfulUserFetch: null,
-    lastSuccessfulReposFetch: null
-  }
-
-  updateUser = () => {
-    this.setState({ isFetchingUser: true })
-    getUser
-      .then(res => {
-        this.setState({
-          user: res.data,
-          isFetchingUser: false,
-          lastSuccessfulUserFetch: new Date()
-        })
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({
-          errorMsg: 'Could not fetch User :(',
-          isFetchingUser: false
-        })
-      })
-  }
-
-  updateRepos = () => {
-    this.setState({ isFetchingRepos: true })
-    getRepos
-      .then(res => {
-        this.setState({
-          repos: res.data,
-          isFetchingRepos: false,
-          lastSuccessfulReposFetch: new Date()
-        })
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({
-          errorMsg: 'Could not fetch Repos :(',
-          isFetchingRepos: false
-        })
-      })
-  }
-
-  dismissError = () => {
-    this.setState({ errorMsg: null })
-  }
-
-  selectRepo = (id) => {
-    return () => {
-      const { repos } = this.state
-
-      const selectedRepo = repos.find(repo => {
-        return repo.id === id
-      })
-      if (selectedRepo) { this.setState({ selectedRepo }) }
-    }
-  }
-
-  unselectRepo = () => {
-    this.setState({ selectedRepo: null })
-  }
-
-  render() {
-    return (
-      <GitHubContext.Provider
-        value={{
-          ...this.state,
-          updateUser: this.updateUser,
-          updateRepos: this.updateRepos,
-          selectRepo: this.selectRepo,
-          unselectRepo: this.unselectRepo,
-          dismissError: this.dismissError
-        }}
-      >
-        {this.props.children}
-      </GitHubContext.Provider>
-    )
-  }
-}
+export const store = createStore(
+  rootReducer,
+  composeEnhancers(
+    applyMiddleware(thunk.withExtraArgument(api))
+  )
+);

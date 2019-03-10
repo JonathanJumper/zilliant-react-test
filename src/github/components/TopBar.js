@@ -1,13 +1,7 @@
 import React from 'react'
 import { Toolbar, Avatar, Button } from 'react-md'
 
-import { connect } from '../store'
-
-const TopBar = ({ user, updateUser, updateRepos }) => {
-  const updateAll = () => {
-    updateUser()
-    updateRepos()
-  }
+const TopBar = ({ user, updateAll }) => {
   const avatar = user
     ? <Avatar key='avt' src={user.avatar_url} />
     : <Avatar key='avt' />
@@ -18,4 +12,4 @@ const TopBar = ({ user, updateUser, updateRepos }) => {
   )
 }
 
-export default connect(TopBar)
+export default (TopBar)
